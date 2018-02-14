@@ -1,0 +1,17 @@
+		<!-- This XML is a usable piece of a mule flow that can handle exceptions.
+		     Any flow can use this.  As I run across more use cases I will expand this. -->
+		<choice-exception-strategy doc:name="Choice Exception Strategy">
+			<catch-exception-strategy
+				when="#[exception.causedBy(org.mule.module.db.internal.domain.connection.ConnectionCreationException)]"
+				doc:name="Database Connection Fails">
+				<logger message="Cannot connect to database." level="ERROR" />
+			</catch-exception-strategy>
+			<catch-exception-strategy
+				when="#[exception.causedBy(java.sql.SQLException)]" doc:name="Other Database Error">
+				<logger message="A database specific error has occurred."
+					level="ERROR" />
+			</catch-exception-strategy>
+			<catch-exception-strategy doc:name="Catch All">
+				<logger message="An unanticipate Exception Occured." level="ERROR" />
+			</catch-exception-strategy>
+		</choice-exception-strategy>
