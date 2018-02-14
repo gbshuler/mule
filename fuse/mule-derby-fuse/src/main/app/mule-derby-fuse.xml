@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd"> 	<!-- This flow creates a Mule Server which listens on Port 8091. 
+	    To "kick the Mule" (generate a flow event) enter this in a browser: 
+		http://localhost:8081/ -->
+	<http:listener-config name="HTTP_Listener_Configuration"
+		host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration" />
+	<db:derby-config name="Derby_Configuration"
+		dataSource-ref="DerbyDB" doc:name="Derby Configuration" />
+	<spring:beans>
+		<spring:bean id="DerbyDB" name="DerbyDB"
+			class="org.enhydra.jdbc.standard.StandardDataSource">
+			<spring:property name="url"
+				value="jdbc:derby://localhost:1527/memory:training" />
+			<spring:property name="driverName"
+				value="org.apache.derby.jdbc.ClientDriver" />
+		</spring:bean>
+	</spring:beans>
+	<flow name="Derby-Hello-World">
+		<http:listener config-ref="HTTP_Listener_Configuration"
+			path="*" doc:name="HTTP" allowedMethods="GET" />
+		<logger message="Trigger Received from http://localhost:9090/"
+			level="INFO" doc:name="Logger" />
+		<db:select config-ref="Derby_Configuration" doc:name="Select All">
+			<db:parameterized-query><![CDATA[SELECT * FROM american]]></db:parameterized-query>
+		</db:select>
+		<set-variable variableName="resultSetSize" value="#[message.payload.size()]"
+			doc:name="Variable" />
+		<set-payload
+			value="Database Connection Succeeded.  Retrieved #[resultSetSize] records."
+			doc:name="Set Output" />
+		<logger message="#[message.payload]" level="INFO" doc:name="Logger" />
+		<choice-exception-strategy doc:name="Choice Exception Strategy">
+			<catch-exception-strategy
+				when="#[exception.causedBy(org.mule.module.db.internal.domain.connection.ConnectionCreationException)]"
+				doc:name="Database Connection Fails">
+				<logger message="Cannot connect to database." level="ERROR" />
+			</catch-exception-strategy>
+			<catch-exception-strategy
+				when="#[exception.causedBy(java.sql.SQLException)]" doc:name="Other Database Error">
+				<logger message="A database specific error has occurred."
+					level="ERROR" />
+			</catch-exception-strategy>
+			<catch-exception-strategy doc:name="Catch All">
+				<logger message="An unanticipate Exception Occured." level="ERROR" />
+			</catch-exception-strategy>
+		</choice-exception-strategy>
+	</flow>
+</mule>

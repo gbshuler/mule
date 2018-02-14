@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%-5p %c: %m%n" />
+		</Console>
+	</Appenders>
+	<Loggers>  		<!-- CXF is used heavily by Mule for web services -->
+		<AsyncLogger name="org.apache.cxf" level="WARN" />  		<!-- Apache Commons tend to make a lot of noise which can clutter the log -->
+		<AsyncLogger name="org.apache" level="WARN" />  		<!-- Reduce startup noise -->
+		<AsyncLogger name="org.springframework.beans" level="INFO" />
+		<AsyncLogger name="org.springframework.core" level="INFO" /> 			  		<!-- Mule classes -->
+		<AsyncLogger name="org.mule" level="DEBUG" />
+		<AsyncLogger name="org.mule.util" level="INFO" />
+		<AsyncLogger name="org.mule.lifecycle" level="WARN" />
+		<AsyncLogger name="org.mule.expression" level="WARN" />
+		<AsyncLogger name="org.mule.transformer" level="WARN" />
+		<AsyncLogger name="org.mule.analytics" level="WARN" />
+		<AsyncLogger name="org.mule.context" level="WARN" />
+		<AsyncLogger name="org.mule.module.xml" level="INFO" />
+		<AsyncLogger name="org.mule.module.rss" level="INFO" />
+		<AsyncLogger name="org.mule.transport.jms" level="INFO" />
+		<AsyncLogger name="org.mule.module.atom" level="INFO" />
+		<AsyncLogger name="org.mule.module.launcher" level="WARN" />
+		<AsyncLogger name="org.mule.module.launcher" level="INFO" />
+		<AsyncLogger name="org.mule.config.bootstrap" level="INFO" />
+		<AsyncLogger name="org.mule.config.spring" level="INFO" />
+		<AsyncLogger name="org.mule.module.management" level="INFO" />
+		<AsyncLogger name="com.mulesoft" level="DEBUG" />  		<!-- Reduce DM verbosity -->
+		<AsyncLogger name="org.jetel" level="WARN" />
+		<AsyncLogger name="Tracking" level="WARN" />       	<!-- Http Logger shows wire traffic on DEBUG -->
+		<AsyncLogger name="org.mule.module.http.internal.HttpMessageLogger"
+			level="ALL" />
+		<AsyncLogger name="com.ning.http" level="ALL" />  	                 <!-- HTTP Connector -->
+		<AsyncLogger name="org.glassfish.grizzly" level="ALL" />
+		<AsyncLogger name="org.asynchttpclient" level="ALL" />          <!-- Reduce DM verbosity -->
+		<AsyncLogger name="org.jetel" level="ALL" />
+		<AsyncLogger name="Tracking" level="ALL" />	 		<!--AsyncLogger name="httpclient.wire" level="ALL" / -->
+		<AsyncRoot level="TRACE">
+			<AppenderRef ref="Console" />
+		</AsyncRoot>
+	</Loggers>
+</Configuration>

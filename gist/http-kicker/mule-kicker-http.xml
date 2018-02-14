@@ -16,7 +16,7 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
 		host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration" />
 	<http:request-config name="HTTP_Request_Configuration"
 		host="localhost" port="8080" doc:name="HTTP Request Configuration" />
-	<flow name="basictutorialFlow">
+	<flow name="mule-kicker-http">
 	    <!--
 		     Kick this flow off by visiting this URL:
 			 http://localhost:8081
