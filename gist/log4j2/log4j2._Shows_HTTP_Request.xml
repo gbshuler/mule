@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
-	<Appenders>
+    <Appenders>
 		<Console name="Console" target="SYSTEM_OUT">
 			<PatternLayout pattern="%-5p %c: %m%n" />
 		</Console>
-	</Appenders>
+    </Appenders>
 	<Loggers>  		<!-- CXF is used heavily by Mule for web services -->
 		<AsyncLogger name="org.apache.cxf" level="WARN" />  		<!-- Apache Commons tend to make a lot of noise which can clutter the log -->
 		<AsyncLogger name="org.apache" level="WARN" />  		<!-- Reduce startup noise -->
@@ -22,12 +22,18 @@
 		<AsyncLogger name="org.mule.transport.jms" level="INFO" />
 		<AsyncLogger name="org.mule.module.atom" level="INFO" />
 		<AsyncLogger name="org.mule.module.launcher" level="WARN" />
-		<AsyncLogger name="org.mule.module.launcher" level="INFO" />
-		<AsyncLogger name="org.mule.config.bootstrap" level="INFO" />
+		<AsyncLogger name="org.mule.registry.SimpleRegistry" level="WARN" />
+		<AsyncLogger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="WARN" />
+		<AsyncLogger name="org.springframework.beans.factory.xml.XmlBeanDefinitionReader" level="WARN" />
+		<AsyncLogger name="org.mule.config.bootstrap" level="INFO" />		
+		<AsyncLogger name="org.mule.module.launcher" level="WARN" />
 		<AsyncLogger name="org.mule.config.spring" level="INFO" />
 		<AsyncLogger name="org.mule.module.management" level="INFO" />
-		<AsyncLogger name="com.mulesoft" level="DEBUG" />  		<!-- Reduce DM verbosity -->
-		<AsyncLogger name="org.jetel" level="WARN" />
+		<AsyncLogger name="com.mulesoft.module.policies" level="WARN" />
+		<AsyncLogger name="org.mule.module." level="INFO" />
+		<AsyncLogger name="org.mule.module.management" level="INFO" />
+		<AsyncLogger name="com.mulesoft" level="WARN" />  		<!-- Reduce DM verbosity -->
+        <AsyncLogger name="org.jetel" level="WARN"/>
 		<AsyncLogger name="Tracking" level="WARN" />       	<!-- Http Logger shows wire traffic on DEBUG -->
 		<AsyncLogger name="org.mule.module.http.internal.HttpMessageLogger"
 			level="ALL" />
@@ -38,6 +44,6 @@
 		<AsyncLogger name="Tracking" level="ALL" />	 		<!--AsyncLogger name="httpclient.wire" level="ALL" / -->
 		<AsyncRoot level="TRACE">
 			<AppenderRef ref="Console" />
-		</AsyncRoot>
-	</Loggers>
+        </AsyncRoot>
+    </Loggers>
 </Configuration>
